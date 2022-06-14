@@ -1,22 +1,58 @@
-const add = (a: number, b: number) => a + b;
+class Department {
+  // id: string;
+  // name: string;
+  private employees: string[] = [];
 
-const printOutput: (a: number | string) => void = (output) =>
-  console.log(output);
+  constructor(private readonly id: string, private name: string) {
+    this.name = name;
+    this.id = id;
+  }
 
-const button = document.querySelector("button");
+  describe(this: Department) {
+    console.log(`Department (${this.id}): ${this.name}`);
+  }
 
-if (button) {
-  button.addEventListener("click", (event) => console.log(event));
+  addEmployees(this: Department, employee: string) {
+    this.employees.push(employee);
+    console.log(this.employees);
+  }
 }
 
-printOutput(add(5, 2));
+class ITDepartment extends Department {
+  admins: string[];
+  constructor(id: string, public admin: string[]) {
+    super(id, "IT");
+    this.admins = admin;
+  }
+}
 
-const sum = (...numbers: number[]) => {
-  return numbers.reduce((curResult, curValue) => {
-    return curResult + curValue;
-  }, 0);
-};
+class AccountingDepartment extends Department {
+  constructor(id: string, private reports: string[]) {
+    super(id, "IT");
+  }
 
-const sumNumbers = sum(5, 10, 22, 3.9);
+  addReports(text: string) {
+    this.reports.push(text);
+  }
 
-console.log(sumNumbers);
+  printReports() {
+    console.log(this.reports);
+  }
+}
+
+const it = new ITDepartment("28", ["Accounting"]);
+console.log(it);
+
+it.addEmployees("Muus");
+
+it.addEmployees("dddd");
+
+it.describe();
+
+const accounting = new AccountingDepartment("d2", []);
+accounting.addReports("Something was went wrong....");
+accounting.printReports();
+
+// const accountingCopy = { name: "Dumm", describe: accounting.describe };
+
+// accountingCopy.describe();
